@@ -5,7 +5,8 @@ def conjugar(palavra, pessoa, numero):
     resultado = "NÃO ENCONTRADO"
     for t in TERMINAÇÕES:
         if id == ind:
-            resultado = palavra.replace("ar", t)
+            resultado = palavra.replace("har", t)
+            resultado = resultado.replace("ar", t)
             break
         ind += 1
     return resultado

@@ -14,10 +14,31 @@ DADOS_QUESTÕES = {
 
     2:{
         "pergunta":0,
-        "frase":"Él _______ bién",
+        "frase":"Tú _______ bién",
         "verbo":"Cantar",
-        "resposta certa":"Canta"
+        "resposta certa":"Cantas"
+    },
+
+    3:{
+        "pergunta":0,
+        "frase":"El maestro _______ a los estudiantes",
+        "verbo":"Educar",
+        "resposta certa":"Educa"
+    },
+
+    4:{
+        "pergunta":0,
+        "frase":"Mi amigo siempre _____ en los juegos",
+        "verbo":"Ganhar",
+        "resposta certa":"Gana"
+    },
+    5:{
+        "pergunta":0,
+        "frase":"La activista ______ la causa",
+        "verbo":"Apoyar",
+        "resposta certa":"Apoya"
     }
+
 }
 TIPOS_PERGUNTAS = ["Completa la oración con la conjugación correcta del verbo"]
 
