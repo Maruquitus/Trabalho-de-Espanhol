@@ -26,7 +26,7 @@ q = 1
 
 @app.route('/')
 def home():
-    return render_template("telaquestao.html", enunciado="Padrão", itens=["Letra A", "Letra B", "Letra C", "Letra D"], resultado = "Nada")
+    return render_template("telaquestao.html", enunciado="Padrão", itens=["Letra A", "Letra B", "Letra C", "Letra D"], resultado = "Nada", estado = ["", "", "", ""])
 
 def novaQuestao():
     global q
