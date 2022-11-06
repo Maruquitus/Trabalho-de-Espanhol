@@ -49,17 +49,24 @@ q = 1
 def home():
     return render_template("telaquestao.html", enunciado="Padrão", itens=["Letra A", "Letra B", "Letra C", "Letra D"], resultado = "Nada", estado = ["", "", "", ""])
 
+questoesVistas = []
+
 def novaQuestao():
     global q
     global opcoes
     global escolhidas
     global estado
+    global questoesVistas
 
     tentativas = 0
     while q in questoesVistas and tentativas < 30:
         q = random.randint(1, len(DADOS_QUESTÕES.keys()))
         tentativas += 1
     questoesVistas.append(q)
+    print(q)
+    print(questoesVistas)
+    if len(questoesVistas) == len(DADOS_QUESTÕES.keys()):
+        questoesVistas = []
 
     pergunta, frase, verbo, respCerta = DADOS_QUESTÕES[q].values()
 
