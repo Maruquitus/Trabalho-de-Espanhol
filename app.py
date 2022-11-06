@@ -29,7 +29,7 @@ DADOS_QUESTÕES = {
     4:{
         "pergunta":0,
         "frase":"Mi amigo siempre _____ en los juegos",
-        "verbo":"Ganhar",
+        "verbo":"Ganar",
         "resposta certa":"Gana"
     },
     5:{
