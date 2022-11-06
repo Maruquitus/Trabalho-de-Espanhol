@@ -9,10 +9,25 @@ body {
     color: rgb(85, 85, 85);
 }
 
+.acertos {
+    display:flex;
+    border-radius: 50px;
+    background-color: white;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding-left: 15px;
+	background-position: center;
+    min-width: 70px;
+    height: 50px;
+}
+h1 {
+    transform: translateY(-15px);
+}
+
 .pergunta {
     width: 800px;
     margin: auto;
-    margin-top: 5%;
+    margin-top: 0%;
     padding: 8px;
     border-radius: 20px;
     text-align: center;
