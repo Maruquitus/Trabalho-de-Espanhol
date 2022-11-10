@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/styles/style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="static/styles/questao.css">
+    <script defer src="static/script.js"></script>
+    <title>Español | Questão {{qatual}}</title>
 </head>
 <body>
-    <div class="acertos">
-        <h1>{{acertos}} ✔</h1>
+
+    <div class="botoes-topo">
+        <abbr title="Regresar"><input type="button" value="&larr;" class="btn-voltar" onclick="voltarBtn()"></abbr>
+        <div class="acertos">
+            <p>{{acertos}}✔️</p>
+        </div>
     </div>
-    
 
     <section class="pergunta">
-        <h2>{{enunciado}}</h2>
+        <h2>{{qatual}}) {{enunciado}}</h2>
     </section>
 
         <form class="areaR" action="{{ url_for("loop")}}" method="post">
@@ -24,7 +28,10 @@
             <button class="opcoes{{estado[3]}}" name="D">D) {{itens[3]}}</button>
         </form>
 
-
-
+        <script>
+            if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+            }
+            </script>
 </body>
 </html>
