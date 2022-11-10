@@ -2,3 +2,4 @@
 *.exe linguist-detectable=false
 *.ps1 linguist-detectable=false
 *.cfg linguist-detectable=false
+*Procfile linguist-detectable=false
