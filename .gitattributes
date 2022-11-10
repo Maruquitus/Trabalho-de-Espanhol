@@ -1,0 +1,4 @@
+*.bat linguist-detectable=false
+*.exe linguist-detectable=false
+*.ps1 linguist-detectable=false
+*.cfg linguist-detectable=false
