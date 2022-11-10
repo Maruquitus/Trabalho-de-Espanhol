@@ -1,0 +1,69 @@
+@font-face {
+    font-family: 'Feather Bold';
+    src: url(fontes/feather_bold_by_typicalbro44_dee263c.ttf);
+}
+
+body {
+    font-family: 'Feather Bold';
+    background: linear-gradient(to right, rgb(237, 172, 20), rgb(255, 102, 0));
+    color: rgb(85, 85, 85);
+    text-align: center;
+}
+
+.titulo {
+    background-color: white;
+    width: 500px;
+    border-radius: 10px;
+    margin: auto;
+}
+
+h2 {
+    font-size: 50px;
+    color: white;
+}
+
+h3 {
+    font-size: 25px;
+    color: white;
+}
+
+.btn-comeco {
+    background-color: rgb(241, 57, 57);
+    color: white;
+    border-radius: 10px;
+    border-style: none;
+    width: 250px;
+    height: 50px;
+    margin-top: 10%;
+    padding: 8px;
+    outline: 0;
+    cursor: pointer;
+    font-family: 'Feather Bold';
+    font-size: 25px;
+}
+
+.btn-comeco:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+    
+.btn-comeco:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* 
+
+laranja
+background: linear-gradient(to right, rgb(237, 172, 20), rgb(255, 102, 0));
+
+roxo
+background: linear-gradient(to right, #4D0491, #58079C, #640BA7);
+
+cor do botão
+background-color: rgb(241, 57, 57);
+
+rgb(85, 85, 85);
+
+/* 

@@ -1,0 +1,126 @@
+@font-face {
+    font-family: 'Feather Bold';
+    src: url(fontes/feather_bold_by_typicalbro44_dee263c.ttf);
+}
+
+.botoes-topo {
+    display: flex;
+}
+
+.btn-voltar {
+    background-color: rgb(241, 57, 57);
+    color: white;
+    border-radius: 10px;
+    border-style: none;
+    width: 50px;
+    height: 40px;
+    padding: 5px;
+    padding-top: 3px;
+    outline: 0;
+    cursor: pointer;
+    font-family: 'Feather Bold';
+    font-size: 20px;
+    text-align: center;
+}
+  
+.btn-voltar:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.acertos {
+    background-color: white;
+    width: 50px;
+    height: 30px;
+    padding: 5px;
+    margin-left: 93%;
+    display: flex;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+p {
+    margin-top: 10%;
+    margin: auto;
+}
+
+body {
+    font-family: 'Feather Bold';
+    background: linear-gradient(to right, rgb(237, 172, 20), rgb(255, 102, 0));
+    color: rgb(85, 85, 85);
+}
+
+h1 {
+    transform: translateY(-15px);
+}
+
+.pergunta {
+    width: 800px;
+    margin: auto;
+    margin-top: 0%;
+    padding: 8px;
+    border-radius: 20px;
+    text-align: center;
+    background-color: white;
+    font-size: 20px;
+
+}
+
+.areaR {
+    max-width: 600px;
+    height: 180px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: auto;
+    margin-top: 10%;
+}
+
+.opcoes {
+    background-color: rgb(241, 57, 57);
+    color: white;
+    border-radius: 10px;
+    border-style: none;
+    width: 250px;
+    height: 50px;
+    padding: 8px;
+    outline: 0;
+    cursor: pointer;
+    font-family: 'Feather Bold';
+    font-size: 25px;
+}
+
+.opcoescerta {
+    background-color: rgb(241, 57, 57);
+    color: white;
+    border-radius: 10px;
+    border-style: none;
+    width: 250px;
+    height: 50px;
+    padding: 8px;
+    outline: 0;
+    cursor: pointer;
+    font-family: 'Feather Bold';
+    font-size: 25px;
+}
+
+.opcoes:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+    
+.opcoes:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.25s ease-in-out;
+    background-color: red;
+}
+
+.opcoescerta:active {
+    transition: background-color 0.25s ease-in-out;
+    background-color: greenyellow;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
