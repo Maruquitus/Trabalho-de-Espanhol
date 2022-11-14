@@ -11,7 +11,7 @@
 <body>
     <p>===DEBUG===</p>
     <ul>
-        <p>Ip: {{ip}}</p>
+        <p>SessionID: {{sessionid}}</p>
         <p>qatual: {{qatual}}</p>
         <p>acertos: {{acertos}}</p>
         <p>questoesVistas: {{questoesVistas}}</p>
@@ -32,8 +32,12 @@
     </section>
 
     <div class="botao">
-        <input type="button" value="Regresar" onclick="voltar()">
-        <input type="button" value="Siguiente" onclick="proximoDois()">
+    <form action="{{ roteador('inicio')}}" method="post">
+        <input type="submit" value="Regresar"">
+    </form>
+    <form action="{{ roteador('loop')}}" method="post">
+        <input type="submit" name="botaoproximo" value="Siguiente"">
+    </form>
     </div>
 
 </body>

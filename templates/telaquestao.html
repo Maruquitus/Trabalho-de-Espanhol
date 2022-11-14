@@ -11,7 +11,10 @@
 <body>
 
     <div class="botoes-topo">
-        <abbr title="Regresar"><input type="button" value="&larr;" class="btn-voltar" onclick="voltarBtn()"></abbr>
+        <form action="{{ roteador('explicacao')}}" method="post">
+            <abbr title="Regresar"><input type="submit" value="&larr;" class="btn-voltar"></abbr>
+        </form>
+        
         <div class="acertos">
             <p>{{acertos}}✔️</p>
         </div>

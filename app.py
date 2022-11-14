@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import random
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, inspect
@@ -121,29 +121,41 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://lgkwkfxithlkoz:1c7ef88a96a
 #app.config['SQLALCHEMY_ECHO'] = True
 engine = create_engine("postgresql://lgkwkfxithlkoz:1c7ef88a96a758a7b91ad5722a02235a5426caef0828a5e40f8ca94e878d8a44@ec2-54-174-31-7.compute-1.amazonaws.com:5432/d5n6nnfo1t5gnm")
 
-primeira_vez = False
-if primeira_vez:
+try:
+    print("Base de dados não encontrada, criando uma nova...")
     with engine.connect() as connection: #Solamente se der merda
         connection.execute('''CREATE TABLE jogador (
-            ip varchar(100) NOT NULL,
+            sessionid varchar(100) NOT NULL,
             questoesVistas varchar(100),
             acertos int,
-            PRIMARY KEY (ip)
+            PRIMARY KEY (sessionid)
             );''')
+except:
+    pass
 
 db = SQLAlchemy(app)
+
+def roteador(destino): ####CÓDIGO MÁGICO
+    global roteado
+    global sessionid
+    print("Roteando...", roteado, sessionid)
+
+    if not sessionid:
+        sessionid = random.randint(0, 10000)
+
+    roteado = True
+    return url_for(f"{destino}", sessionid=sessionid, roteado=True)
 
 class Jogador(db.Model):
     __tablename__ = "jogador"
     __table_args__ = {'sqlite_autoincrement': True}
-    ip = db.Column(db.String(25), primary_key=True)
+    sessionid = db.Column(db.String(25), primary_key=True)
     questoesVistas = db.Column(db.String(100), nullable=False, name="questoesVistas",quote=False)
     acertos = db.Column(db.Integer)
     
-    def __init__(self, questoesVistas, acertos):
-        hostname=socket.gethostname()
-        IPAddr=f"{hostname} ({socket.gethostbyname(hostname)})"
-        self.ip = IPAddr
+    def __init__(self, questoesVistas, acertos, sessionid):
+        self.sessionid = sessionid
+        print(f"Criando em {len(Jogador.query.all())}")
         
         if isinstance(questoesVistas, list): 
             self.questoesVistas = json.dumps(questoesVistas)
@@ -151,33 +163,35 @@ class Jogador(db.Model):
             self.questoesVistas = questoesVistas
         self.acertos = acertos
 
-def atualizar(IP, inicial=False):
+def atualizar(sid, inicial=False):
     global questoesVistas, acertos, db
+    global sessionid
+    sessionid = sid
     if inicial:
         try:
-            jog = Jogador.query.get(IP)
+            jog = Jogador.query.get(sid)
             acertos = jog.acertos
             questoesVistas = json.loads(jog.questoesVistas.replace("{", "[").replace("}", "]"))
         except:
             acertos = 0
             questoesVistas = []
-            db.session.add(Jogador(questoesVistas, acertos))
-            jog = Jogador.query.get(IP)
+            db.session.add(Jogador(questoesVistas, acertos, sessionid=sid))
+            jog = Jogador.query.get(sid)
     else:
         try:
-            jog = Jogador.query.get(IP)
+            jog = Jogador.query.get(sid)
             jog.acertos = acertos
             jog.questoesVistas = questoesVistas
             db.session.commit()
         except:
             acertos = 0
             questoesVistas = []
-            db.session.add(Jogador(questoesVistas, acertos))
-            jog = Jogador.query.get(IP)
+            db.session.add(Jogador(questoesVistas, acertos, sessionid=sid))
+            jog = Jogador.query.get(sid)
             jog.acertos = acertos
             jog.questoesVistas = questoesVistas
             db.session.commit()
-    print(f"({IP}) - Atualizado com sucesso!, acertos: {jog.acertos}, questoesVistas: {jog.questoesVistas}")
+    print(f"({sid}) - Atualizado com sucesso!, acertos: {jog.acertos}, questoesVistas: {jog.questoesVistas}")
     return jog
 
 def novaQuestao(ovrd=-1):
@@ -229,18 +243,18 @@ def home():
 
 @app.route('/inicio', methods =["GET", "POST"])
 def inicio():
-    return render_template("inicio.html")
+    return render_template("inicio.html", roteador=roteador)
 
+roteado = False
 qatual = 0
 acertos = 0
 questoesVistas = []
 @app.route('/explicacao', methods =["GET", "POST"])
 def explicacao():
+    sessionid = request.args.get('sessionid', type=str)
     global qatual, acertos, questoesVistas, db
-    hostname=socket.gethostname()
-    IPAddr=f"{hostname} ({socket.gethostbyname(hostname)})"
-    qatual = 0
-    atualizar(IPAddr, inicial=True)
+    jog = atualizar(sessionid, inicial=True)
+    qatual = 1
     """#Resetar valores na página de início
     acertos = 0
     qatual = 0
@@ -253,36 +267,46 @@ def explicacao():
         info.append(c.questoesVistas)
     
     return render_template("explicacao.html", 
-    ip=IPAddr, 
+    sessionid=sessionid, 
     qatual=qatual, 
     acertos=acertos, 
     questoesVistas=questoesVistas, 
-    infos=info)
+    infos=info, 
+    roteador=roteador)
 
 @app.route('/questao', methods =["GET", "POST"])
 def loop():
+    global sessionid
+    global roteado
     global q, qatual, opcoes, escolhidas
     global estado, acertos, respCerta
     global pergunta, frase, verbo, respCerta
-    global IPAddr
 
-    hostname=socket.gethostname()
-    IPAddr=f"{hostname} ({socket.gethostbyname(hostname)})"
+    try:
+        roteado = request.args.get('roteado', type=bool)
+        if roteado:
+            sessionid = request.args.get('sessionid', type=str)
+    except:
+        return redirect(roteador("loop"))
 
     passar = False #Variável para impedir a geração de novas questões com o refresh
-    if request.method == "GET":
+    if request.method == "GET" or "botaoproximo" in request.form:
         try:
-            jog = Jogador.query.get(IPAddr)
+            jog = Jogador.query.get(sessionid)
             qvistas = json.loads(jog.questoesVistas.replace("{", "[").replace("}", "]"))
             qatual = len(qvistas)
             pergunta, frase, verbo, respCerta = novaQuestao(ovrd=qvistas[-1]) #Gerar questão específica
+            print("gerando no try")
         except:
             pass
         passar = True
-        if qatual == 0:
+        if qatual == 0 and roteado:
+            print("gerando no 0")
             pergunta, frase, verbo, respCerta = novaQuestao()
+            
 
     if request.method == "POST" or passar: #Quando uma alternativa é escolhida
+        print(passar)
         if passar:
             alternativa = ""
         else:
@@ -292,17 +316,31 @@ def loop():
             
             print("QUESTÃO SENDO GERADA POR POST")
             pergunta, frase, verbo, respCerta = novaQuestao() #Gerar nova questão
+            return redirect(roteador("loop"))
             
-        jog = atualizar(IPAddr)
-        print(jog.ip, jog.acertos, jog.questoesVistas)
+        jog = atualizar(sessionid)
+        print(jog.sessionid, jog.acertos, jog.questoesVistas)
+        
 
-        return render_template("telaquestao.html", 
-        qatual=qatual, 
-        enunciado=f"{TIPOS_PERGUNTAS[pergunta]} {verbo}: {frase}", 
-        itens=[opcoes[escolhidas[0]], opcoes[escolhidas[1]], 
-        opcoes[escolhidas[2]], opcoes[escolhidas[3]]], 
-        estado=estado, 
-        acertos=acertos)
+        try:
+            type(pergunta)
+        except:
+            pergunta, frase, verbo, respCerta = novaQuestao() #Gerar nova questão
+        
+        while not roteado:
+            roteador("loop")
+        
+        if roteado:
+            return render_template("telaquestao.html", 
+            qatual=qatual, 
+            enunciado=f"{TIPOS_PERGUNTAS[pergunta]} {verbo}: {frase}", 
+            itens=[opcoes[escolhidas[0]], opcoes[escolhidas[1]], 
+            opcoes[escolhidas[2]], opcoes[escolhidas[3]]], 
+            estado=estado, 
+            acertos=acertos, 
+            roteador=roteador
+            )
+        
 
 if __name__ == '__main__':
     db.create_all()

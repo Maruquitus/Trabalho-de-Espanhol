@@ -18,6 +18,8 @@
 
     </header>
 
-    <input type="button" value="Empezar" onclick="proximo()" class="btn-comeco">
+    <form action="{{ roteador('explicacao')}}" method="post">
+        <input type="submit" name="proximo" value="Empezar" class="btn-comeco">
+    </form>
 </body>
 </html> 
