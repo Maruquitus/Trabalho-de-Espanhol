@@ -121,12 +121,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://lgkwkfxithlkoz:1c7ef88a96a
 #app.config['SQLALCHEMY_ECHO'] = True
 engine = create_engine("postgresql://lgkwkfxithlkoz:1c7ef88a96a758a7b91ad5722a02235a5426caef0828a5e40f8ca94e878d8a44@ec2-54-174-31-7.compute-1.amazonaws.com:5432/d5n6nnfo1t5gnm")
 
-
 primeira_vez = False
 if primeira_vez:
     with engine.connect() as connection: #Solamente se der merda
         connection.execute('''CREATE TABLE jogador (
-            ip varchar(30) NOT NULL,
+            ip varchar(100) NOT NULL,
             questoesVistas varchar(100),
             acertos int,
             PRIMARY KEY (ip)
@@ -143,7 +142,7 @@ class Jogador(db.Model):
     
     def __init__(self, questoesVistas, acertos):
         hostname=socket.gethostname()
-        IPAddr=socket.gethostbyname(hostname)
+        IPAddr=f"{hostname} ({socket.gethostbyname(hostname)})"
         self.ip = IPAddr
         
         if isinstance(questoesVistas, list): 
@@ -163,6 +162,7 @@ def atualizar(IP, inicial=False):
             acertos = 0
             questoesVistas = []
             db.session.add(Jogador(questoesVistas, acertos))
+            jog = Jogador.query.get(IP)
     else:
         try:
             jog = Jogador.query.get(IP)
@@ -231,11 +231,14 @@ def home():
 def inicio():
     return render_template("inicio.html")
 
+qatual = 0
+acertos = 0
+questoesVistas = []
 @app.route('/explicacao', methods =["GET", "POST"])
 def explicacao():
     global qatual, acertos, questoesVistas, db
     hostname=socket.gethostname()
-    IPAddr=socket.gethostbyname(hostname)
+    IPAddr=f"{hostname} ({socket.gethostbyname(hostname)})"
     qatual = 0
     atualizar(IPAddr, inicial=True)
     """#Resetar valores na página de início
@@ -264,7 +267,7 @@ def loop():
     global IPAddr
 
     hostname=socket.gethostname()
-    IPAddr=socket.gethostbyname(hostname)
+    IPAddr=f"{hostname} ({socket.gethostbyname(hostname)})"
 
     passar = False #Variável para impedir a geração de novas questões com o refresh
     if request.method == "GET":
