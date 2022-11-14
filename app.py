@@ -3,7 +3,7 @@ import random
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, inspect
 import json
-import socket
+import pickle
 import conjugador
 
 DADOS_QUESTÕES = { #Definição das perguntas para serem escolhidas
@@ -293,14 +293,14 @@ def loop():
     if request.method == "GET" or "botaoproximo" in request.form:
         try:
             jog = Jogador.query.get(sessionid)
-            qvistas = json.loads(jog.questoesVistas.replace("{", "[").replace("}", "]"))
-            qatual = len(qvistas)
-            pergunta, frase, verbo, respCerta = novaQuestao(ovrd=qvistas[-1]) #Gerar questão específica
+            questoesVistas = json.loads(jog.questoesVistas.replace("{", "[").replace("}", "]"))
+            qatual = len(questoesVistas)
+            pergunta, frase, verbo, respCerta = novaQuestao(ovrd=questoesVistas[-1]) #Gerar questão específica
             print("gerando no try")
         except:
             pass
         passar = True
-        if qatual == 0 and roteado:
+        if qatual == 0:
             print("gerando no 0")
             pergunta, frase, verbo, respCerta = novaQuestao()
             
@@ -316,6 +316,7 @@ def loop():
             
             print("QUESTÃO SENDO GERADA POR POST")
             pergunta, frase, verbo, respCerta = novaQuestao() #Gerar nova questão
+            atualizar(sessionid)
             return redirect(roteador("loop"))
             
         jog = atualizar(sessionid)
@@ -328,6 +329,7 @@ def loop():
             pergunta, frase, verbo, respCerta = novaQuestao() #Gerar nova questão
         
         while not roteado:
+            atualizar(sessionid, inicial=True)
             roteador("loop")
         
         if roteado:
@@ -344,5 +346,5 @@ def loop():
 
 if __name__ == '__main__':
     db.create_all()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
     
