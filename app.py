@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import random
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 import json
 import socket
 import conjugador
@@ -233,7 +233,7 @@ def inicio():
 
 @app.route('/explicacao', methods =["GET", "POST"])
 def explicacao():
-    global qatual, acertos, questoesVistas
+    global qatual, acertos, questoesVistas, db
     hostname=socket.gethostname()
     IPAddr=socket.gethostbyname(hostname)
     qatual = 0
@@ -242,7 +242,19 @@ def explicacao():
     acertos = 0
     qatual = 0
     questoesVistas = []"""
-    return render_template("explicacao.html")
+    columns = Jogador.query.all()
+    info = []
+    for c in columns:
+        info.append(c)
+        info.append(c.acertos)
+        info.append(c.questoesVistas)
+    
+    return render_template("explicacao.html", 
+    ip=IPAddr, 
+    qatual=qatual, 
+    acertos=acertos, 
+    questoesVistas=questoesVistas, 
+    infos=info)
 
 @app.route('/questao', methods =["GET", "POST"])
 def loop():
