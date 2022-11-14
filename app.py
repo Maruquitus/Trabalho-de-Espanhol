@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, redirect
 import random
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+import json
+import socket
 import conjugador
 
-app = Flask(__name__)
 DADOS_QUESTÕES = { #Definição das perguntas para serem escolhidas
     1:{
         "pergunta":0, #Tipo do enunciado
@@ -111,26 +114,88 @@ DADOS_QUESTÕES = { #Definição das perguntas para serem escolhidas
 TIPOS_PERGUNTAS = ["Completa la oración con la conjugación correcta del verbo", 
 "Marca la oración en la que la conjugación del verbo en el presente del indicativo es correcta"]
 
-acertos = 0
-q = 1
-questoesVistas = []
-respCerta = ""
-estado = "    "
-qatual = 0
 
-def novaQuestao():
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://lgkwkfxithlkoz:1c7ef88a96a758a7b91ad5722a02235a5426caef0828a5e40f8ca94e878d8a44@ec2-54-174-31-7.compute-1.amazonaws.com:5432/d5n6nnfo1t5gnm"
+#app.config['SQLALCHEMY_ECHO'] = True
+engine = create_engine("postgresql://lgkwkfxithlkoz:1c7ef88a96a758a7b91ad5722a02235a5426caef0828a5e40f8ca94e878d8a44@ec2-54-174-31-7.compute-1.amazonaws.com:5432/d5n6nnfo1t5gnm")
+
+
+primeira_vez = False
+if primeira_vez:
+    with engine.connect() as connection: #Solamente se der merda
+        connection.execute('''CREATE TABLE jogador (
+            ip varchar(30) NOT NULL,
+            questoesVistas varchar(100),
+            acertos int,
+            PRIMARY KEY (ip)
+            );''')
+
+db = SQLAlchemy(app)
+
+class Jogador(db.Model):
+    __tablename__ = "jogador"
+    __table_args__ = {'sqlite_autoincrement': True}
+    ip = db.Column(db.String(25), primary_key=True)
+    questoesVistas = db.Column(db.String(100), nullable=False, name="questoesVistas",quote=False)
+    acertos = db.Column(db.Integer)
+    
+    def __init__(self, questoesVistas, acertos):
+        hostname=socket.gethostname()
+        IPAddr=socket.gethostbyname(hostname)
+        self.ip = IPAddr
+        
+        if isinstance(questoesVistas, list): 
+            self.questoesVistas = json.dumps(questoesVistas)
+        else:
+            self.questoesVistas = questoesVistas
+        self.acertos = acertos
+
+def atualizar(IP, inicial=False):
+    global questoesVistas, acertos, db
+    if inicial:
+        try:
+            jog = Jogador.query.get(IP)
+            acertos = jog.acertos
+            questoesVistas = json.loads(jog.questoesVistas.replace("{", "[").replace("}", "]"))
+        except:
+            acertos = 0
+            questoesVistas = []
+            db.session.add(Jogador(questoesVistas, acertos))
+    else:
+        try:
+            jog = Jogador.query.get(IP)
+            jog.acertos = acertos
+            jog.questoesVistas = questoesVistas
+            db.session.commit()
+        except:
+            acertos = 0
+            questoesVistas = []
+            db.session.add(Jogador(questoesVistas, acertos))
+            jog = Jogador.query.get(IP)
+            jog.acertos = acertos
+            jog.questoesVistas = questoesVistas
+            db.session.commit()
+    print(f"({IP}) - Atualizado com sucesso!, acertos: {jog.acertos}, questoesVistas: {jog.questoesVistas}")
+    return jog
+
+def novaQuestao(ovrd=-1):
     global q, qatual, opcoes, escolhidas, estado
     global questoesVistas
 
-    qatual += 1
+    if ovrd == -1:
+        qatual += 1
 
-    while q in questoesVistas: #Criar uma nova questão ainda não vista
-        q = random.randint(1, len(DADOS_QUESTÕES.keys()))
-        if len(questoesVistas) == len(DADOS_QUESTÕES.keys()):
-            questoesVistas = [] #Resetar para começar a repetir questões
-            ###Adicionar tela final
-    questoesVistas.append(q)
-
+        while q in questoesVistas: #Criar uma nova questão ainda não vista
+            q = random.randint(1, len(DADOS_QUESTÕES.keys()))
+            if len(questoesVistas) == len(DADOS_QUESTÕES.keys()):
+                questoesVistas = [] #Resetar para começar a repetir questões
+                ###Adicionar tela final
+        questoesVistas.append(q)
+    else:
+        q = ovrd
+    print("Questão overrida: ", ovrd)
     pergunta, frase, verbo, respCerta = DADOS_QUESTÕES[q].values()
 
     opcoes = conjugador.conjugacoes(DADOS_QUESTÕES[q]['verbo']) #Gerar as opções de conjugação
@@ -153,6 +218,10 @@ def novaQuestao():
 
     return pergunta, frase, verbo, altCorreta
 
+q = 1
+respCerta = ""
+estado = "    "
+
 #Roteamento
 @app.route('/')
 def home():
@@ -165,10 +234,14 @@ def inicio():
 @app.route('/explicacao', methods =["GET", "POST"])
 def explicacao():
     global qatual, acertos, questoesVistas
-    #Resetar valores na página de início
+    hostname=socket.gethostname()
+    IPAddr=socket.gethostbyname(hostname)
+    qatual = 0
+    atualizar(IPAddr, inicial=True)
+    """#Resetar valores na página de início
     acertos = 0
     qatual = 0
-    questoesVistas = []
+    questoesVistas = []"""
     return render_template("explicacao.html")
 
 @app.route('/questao', methods =["GET", "POST"])
@@ -176,9 +249,20 @@ def loop():
     global q, qatual, opcoes, escolhidas
     global estado, acertos, respCerta
     global pergunta, frase, verbo, respCerta
+    global IPAddr
+
+    hostname=socket.gethostname()
+    IPAddr=socket.gethostbyname(hostname)
 
     passar = False #Variável para impedir a geração de novas questões com o refresh
     if request.method == "GET":
+        try:
+            jog = Jogador.query.get(IPAddr)
+            qvistas = json.loads(jog.questoesVistas.replace("{", "[").replace("}", "]"))
+            qatual = len(qvistas)
+            pergunta, frase, verbo, respCerta = novaQuestao(ovrd=qvistas[-1]) #Gerar questão específica
+        except:
+            pass
         passar = True
         if qatual == 0:
             pergunta, frase, verbo, respCerta = novaQuestao()
@@ -190,8 +274,12 @@ def loop():
             alternativa = list(request.form.keys())[0] #Identificar a alternativa marcada
             if alternativa == respCerta: #Verificar se está correta
                 acertos += 1
-
+            
+            print("QUESTÃO SENDO GERADA POR POST")
             pergunta, frase, verbo, respCerta = novaQuestao() #Gerar nova questão
+            
+        jog = atualizar(IPAddr)
+        print(jog.ip, jog.acertos, jog.questoesVistas)
 
         return render_template("telaquestao.html", 
         qatual=qatual, 
@@ -202,5 +290,6 @@ def loop():
         acertos=acertos)
 
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True)
     
