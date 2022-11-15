@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import random
+from flask_ngrok import run_with_ngrok
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, inspect
 import json
-import pickle
 import conjugador
 
 DADOS_QUESTÕES = { #Definição das perguntas para serem escolhidas
@@ -116,6 +116,7 @@ TIPOS_PERGUNTAS = ["Completa la oración con la conjugación correcta del verbo"
 
 
 app = Flask(__name__)
+run_with_ngrok(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://lgkwkfxithlkoz:1c7ef88a96a758a7b91ad5722a02235a5426caef0828a5e40f8ca94e878d8a44@ec2-54-174-31-7.compute-1.amazonaws.com:5432/d5n6nnfo1t5gnm"
 #app.config['SQLALCHEMY_ECHO'] = True
@@ -243,6 +244,8 @@ def home():
 
 @app.route('/inicio', methods =["GET", "POST"])
 def inicio():
+    global sessionid
+    sessionid = 0
     return render_template("inicio.html", roteador=roteador)
 
 roteado = False
@@ -345,6 +348,6 @@ def loop():
         
 
 if __name__ == '__main__':
-    db.create_all()
-    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    #db.create_all()
+    app.run()
     
