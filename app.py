@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
 import random
-from flask_ngrok import run_with_ngrok
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, inspect
 import json
