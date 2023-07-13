@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/styles/resultados.css">
+    <title>Resultados</title>
+</head>
+<body>
+    <section class="container">
+
+        <div class="titulo">
+            <h1>Resultados</h1>
+        </div>
+
+        <h2>Preguntas para completar</h2>
+        <p>{{completar[0]}} acertos / {{completar[1]}} total</p>
+        <h2>Preguntas de verdadero o falso</h2>
+        <p>{{verdFalso[0]}} acertos / {{verdFalso[1]}} total</p>
+        
+    </section>
+    
+    <h3>¡Gracias por la atención!</h3>
+
+    <form method="post" action="{{ url_for("inicio")}}">
+        <input type="submit" value="Inicio">
+    </form>
+
+    <script>
+        if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
+
+</body>
+</html>

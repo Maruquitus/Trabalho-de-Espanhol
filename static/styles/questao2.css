@@ -64,17 +64,11 @@
     font-size: 20px;
     text-align: center;
 }
-input:disabled {
-    background-color: rgb(163, 45, 45);
-    cursor: not-allowed;
-}
   
 .btn-voltar:active {
     transform: translateY(-1px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
-
-
 
 .acertos {
     background-color: white;
@@ -125,13 +119,28 @@ h1 {
     margin-top: 10%;
 }
 
-.opcoes {
-    background-color: rgb(241, 57, 57);
+.opcoes1 {
+    background-color: rgb(65, 216, 34);
     color: white;
     border-radius: 10px;
     border-style: none;
+    margin-bottom: 10%;
     width: 250px;
-    height: 50px;
+    height: 75px;
+    padding: 8px;
+    outline: 0;
+    cursor: pointer;
+    font-family: 'Feather Bold';
+    font-size: 25px;
+}
+.opcoes2 {
+    background-color: rgb(240, 21, 21);
+    color: white;
+    border-radius: 10px;
+    border-style: none;
+    margin-bottom: 10%;
+    width: 250px;
+    height: 75px;
     padding: 8px;
     outline: 0;
     cursor: pointer;
@@ -139,13 +148,28 @@ h1 {
     font-size: 25px;
 }
 
-.opcoescerta {
-    background-color: rgb(241, 57, 57);
+.opcoes1certa {
+    background-color: rgb(65, 216, 34);
     color: white;
     border-radius: 10px;
     border-style: none;
     width: 250px;
-    height: 50px;
+    height: 75px;
+    margin-bottom: 10%;
+    padding: 8px;
+    outline: 0;
+    cursor: pointer;
+    font-family: 'Feather Bold';
+    font-size: 25px;
+}
+.opcoes2certa {
+    background-color: rgb(240, 21, 21);
+    color: white;
+    border-radius: 10px;
+    border-style: none;
+    width: 250px;
+    height: 75px;
+    margin-bottom: 10%;
     padding: 8px;
     outline: 0;
     cursor: pointer;
@@ -153,27 +177,53 @@ h1 {
     font-size: 25px;
 }
 
-.opcoes:hover {
+.opcoes1:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.opcoes2:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.opcoescerta:hover {
+.opcoes1certa:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
-    
-.opcoes:active {
+.opcoes2certa:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.opcoes1:active {
+    transition: background-color 0.25s ease-in-out;
+    background-color: rgb(55, 241, 55);
     transform: translateY(-1px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.opcoes2:active {
     transition: background-color 0.25s ease-in-out;
     background-color: red;
-}
-
-.opcoescerta:active {
-    transition: background-color 0.25s ease-in-out;
-    background-color: greenyellow;
     transform: translateY(-1px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
+
+.opcoes1certa:active {
+    transition: background-color 0.25s ease-in-out;
+    background-color: rgb(55, 241, 55);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.opcoes2certa:active {
+    transition: background-color 0.25s ease-in-out;
+    background-color: red;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+input:disabled {
+    background-color: rgb(163, 45, 45);
+    cursor: not-allowed;
+}
+  

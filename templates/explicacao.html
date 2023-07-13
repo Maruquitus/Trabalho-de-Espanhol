@@ -5,32 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/styles/explicacao.css">
-    <script src="static/script.js"></script>
     <title>Español | Explicação</title>
 </head>
 <body>
 
+    <h1>Explicación</h1>
+    
     <section class="explicacao">
-        <div class="tabela">
-            <div class="pronomes">
-                <h3>Yo</h3>
-                <h3>Tú</h3>
-                <h3>Él - Ella - Usted</h3>
-                <h3>Nosotros - Nosotras</h3>
-                <h3>Vosotros - Vosotras</h3>
-                <h3>Ellos - Ellas - Ustedes</h3>
+            <div class="container">
+                <div>
+                    <h3>Pronombres Personales</h3>
+                    <h3>Yo</h3>
+                    <h3>Tú</h3>
+                    <h3>Él/Ella/Usted</h3>
+                    <h3>Nosotros/as</h3>
+                    <h3>Vosotros/as</h3>
+                    <h3>Ellos/Ellas/Ustedes</h3>
+                </div>
+
+                <div>
+                    <h3>am<span>ar</span>/estudi<span>ar</span></h3>
+                    <h3>am<span>o</span>/estudi<span>o</span></h3>
+                    <h3>am<span>as</span>/estudi<span>as</span></h3>
+                    <h3>am<span>a</span>/estudi<span>a</span></h3>
+                    <h3>a<span>mamos</span>/estudi<span>amos</span></h3>
+                    <h3>am<span>áis</span>/estudi<span>áis</span></h3>
+                    <h3>am<span>an</span>/estudi<span>an</span></h3>
+                </div>
+
             </div>
-        </div>
     </section>
 
     <div class="botao">
-    <form action="{{ roteador('inicio')}}" method="post">
-        <input type="submit" value="Regresar"">
-    </form>
-    <form action="{{ roteador('loop')}}" method="post">
-        <input type="submit" name="botaoproximo" value="Siguiente"">
-    </form>
+        <form action="{{ roteador('inicio')}}" method="post">
+            <input type="submit" value="Regresar">
+        </form>
+        <form action="{{ roteador('questao')}}" method="post">
+            <input type="submit" name="botaoproximo" value="Siguiente">
+        </form>
     </div>
+    
 
 </body>
 </html>

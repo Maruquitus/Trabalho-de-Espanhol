@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/styles/questao.css">
+    <link rel="stylesheet" href="static/styles/questao2.css">
     <title>Español | Questão {{qAtual}}</title>
 </head>
 <body>
@@ -20,14 +20,12 @@
     </div>
 
     <section class="pergunta">
-        <h2>{{qAtual}}) {{enunciado}}</h2>
+        <h2>{{qAtual}}) {{enunciado}} <br>"{{frase}}"</h2>
     </section>
 
         <form class="areaR" action="{{ url_for("questao")}}" method="post">
-            <button class="opcoes{{estado[0]}}" name="A">A) {{itens[0]}}</button>
-            <button class="opcoes{{estado[1]}}" name="B">B) {{itens[1]}}</button>
-            <button class="opcoes{{estado[2]}}" name="C">C) {{itens[2]}}</button>
-            <button class="opcoes{{estado[3]}}" name="D">D) {{itens[3]}}</button>
+            <button class="opcoes1{{estado[0]}}" name="Verdadero">Verdadero ✓</button>
+            <button class="opcoes2{{estado[1]}}" name="Falso">Falso ✕</button>
         </form>
 
         <script>

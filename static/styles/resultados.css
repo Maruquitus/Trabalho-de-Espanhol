@@ -10,30 +10,35 @@ body {
     text-align: center;
 }
 
-h1{
+.titulo{
+    background-color: rgb(241, 57, 57);
     color: white;
-    font-size: 35px;
+    font-size: 25px;
+    width: 816px;
+    margin: 0 auto;
+    margin-top: -5%;
+    margin-left: -1%;
+    border-radius: 20px 20px 0 0;
 }
 
-.explicacao {
+h2{
+    text-decoration: underline;
+}
+
+h3 {
+    color: white;
+    font-size: 35px;
+    margin-top: 5%;
+}
+
+.container {
     width: 800px;
     margin: auto;
-    margin-top: 1%;
+    margin-top: 5%;
     padding: 8px;
     border-radius: 20px;
     text-align: center;
     background-color: white;
-}
-
-.container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 800px;
-}
-
-span {
-    color: rgb(241, 57, 57);
 }
 
 input {
@@ -44,7 +49,7 @@ input {
     width: 250px;
     height: 50px;
     padding: 8px;
-    margin-top: 7%;
+    margin-top: 2%;
     outline: 0;
     cursor: pointer;
     font-family: 'Feather Bold';
@@ -59,16 +64,4 @@ input:hover {
 input:active {
     transform: translateY(-1px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-.botao {
-    max-width: 600px;
-    height: 180px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: auto;
-    margin-top: 0%;
 }

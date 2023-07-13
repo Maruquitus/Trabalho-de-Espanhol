@@ -1,0 +1,124 @@
+[
+    {
+        "pergunta":0,
+        "frase":"Yo ______ mucho.",
+        "verbo":"Hablar",
+        "resposta certa":"Hablo"
+    },
+
+    {
+        "pergunta":0,
+        "frase":"Tú _______ bién.",
+        "verbo":"Cantar",
+        "resposta certa":"Cantas"
+    },
+
+    {
+        "pergunta":0,
+        "frase":"El maestro _______ a los estudiantes.",
+        "verbo":"Educar",
+        "resposta certa":"Educa"
+    },
+
+    {
+        "pergunta":0,
+        "frase":"Mi amigo siempre _____ en los juegos.",
+        "verbo":"Ganar",
+        "resposta certa":"Gana"
+    },
+    {
+        "pergunta":0,
+        "frase":"La activista ______ la causa.",
+        "verbo":"Apoyar",
+        "resposta certa":"Apoya"
+    },
+    {
+        "pergunta":0,
+        "frase":"Los alumnos __________ español.",
+        "verbo":"Estudiar",
+        "resposta certa": "Estudian"
+    },
+    {
+        "pergunta":0,
+        "frase":"María _________ bien el contenido.",
+        "verbo":"Presentar",
+        "resposta certa": "Presenta"
+    },
+    {
+        "pergunta":0,
+        "frase":"¿Tú _________ con su madre todos los días?",
+        "verbo":"Caminar",
+        "resposta certa": "Caminas"
+    },
+    {
+        "pergunta":0,   
+        "frase":"Mis amigos _________ musica.",
+        "verbo":"Escuchar",
+        "resposta certa": "Escuchan"
+    },
+    {
+        "pergunta":0,   
+        "frase":"Nosotros siempre _____ al cielo por la noche porque la luna es hermosa.",
+        "verbo":"Mirar",
+        "resposta certa": "Miramos"
+    },
+    {
+        "pergunta":0,   
+        "frase":"Ellos ______ a sus amigos cada vez que tienen una fiesta.",
+        "verbo":"Invitar",
+        "resposta certa": "Invitan"
+    },
+    {
+        "pergunta":0,   
+        "frase":"Vosotros ________ de ayuda para terminar la actividad.",
+        "verbo":"Necesitar",
+        "resposta certa": "Necesitáis"
+    },
+    {
+        "pergunta":0,   
+        "frase":"Miguel ______ paisajes muy bonitos.",
+        "verbo":"Dibujar",
+        "resposta certa": "Dibuja"
+    },
+    {
+        "pergunta":0,   
+        "frase":"Cuando yo ________ el año nuevo, llamo a todos los miembros de mi familia.",
+        "verbo":"Celebrar",
+        "resposta certa": "Celebro"
+    },
+    {
+        "pergunta":1,
+        "frase":"Los hermanos se aman.",
+        "correto?": "Verdadero"
+    },
+    {
+        "pergunta":1,
+        "frase":"Todas las vidas importas.",
+        "correto?": "Falso"
+    },
+    {
+        "pergunta":1,
+        "frase":"Ellos siempre toman una decisión.",
+        "correto?": "Verdadero"
+    },
+    {
+        "pergunta":1,
+        "frase":"Mi abuela cocina bién.",
+        "correto?": "Verdadero"
+    },
+    {
+        "pergunta":1,
+        "frase":"Nosotros corren.",
+        "correto?": "Falso"
+    },
+    {
+        "pergunta":1,
+        "frase":"Mis amigos bailaráis bién.",
+        "correto?": "Falso"
+    },
+    {
+        "pergunta":1,
+        "frase":"La profesora empezo la explicación.",
+        "correto?": "Falso"
+    }
+]
