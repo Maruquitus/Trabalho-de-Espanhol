@@ -1,9 +1,10 @@
-# Trabalho de Espanhol 
+# 🎮Trabalho de Espanhol 
 Desenvolvido para um trabalho em grupo, onde cada equipe deveria fazer um jogo com o tema determinado, no caso, verbos terminados em AR do espanhol.
-Front-end feito por <a href="https://www.github.com/GuilhermePain">@GuilhermePain</a>.
-Back-end utilizando Flask e JSON.
+## ✅ Concluído
+* Front-end feito por <a href="https://www.github.com/GuilhermePain">@GuilhermePain</a>.
+* Back-end utilizando Flask e JSON.
 
-## Códigos
+## 👨‍💻 Códigos
 ### conjugador.py
 Conjuga os verbos terminados em AR na pessoa (começando do zero) e número (singular ou plural) especificados. Também é capaz de gerar uma lista com as conjugações possíveis de um verbo.
 ![image](https://github.com/Maruquitus/Trabalho-de-Espanhol/assets/58173530/77a45304-ef40-4f30-90e3-b94a1bd712c3)
